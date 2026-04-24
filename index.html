@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MULTSET • Inovação além dos limites</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-light: #f9fafc;
+            --bg-dark: #0f172a;
+            --text-light: #1e293b;
+            --text-dark: #f8fafc;
+            --text-sub-light: #475569;
+            --text-sub-dark: #cbd5e1;
+            --card-light: #ffffff;
+            --card-dark: #1e293b;
+            --border-light: #e2e8f0;
+            --border-dark: #334155;
+            --shadow-light: rgba(0,0,0,0.04);
+            --shadow-dark: rgba(0,0,0,0.3);
+            --gradient-light: linear-gradient(135deg, #0f2b5c, #2563eb);
+            --gradient-dark: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            --ia-bg-light: linear-gradient(135deg, #0f2b5c, #1e3a8a);
+            --ia-bg-dark: linear-gradient(135deg, #1e3a8a, #0f172a);
+            --btn-bg: #2563eb;
+            --btn-bg-hover: #1d4ed8;
+            --btn-outline: #2563eb;
+            --btn-outline-bg: #eef2ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* navbar */
+        .navbar {
+            background-color: var(--card-light);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-light);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .navbar.dark-mode {
+            background-color: var(--card-dark);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-light);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .logo-slogan {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--text-sub-light);
+            background: none;
+            -webkit-text-fill-color: var(--text-sub-light);
+            margin-top: 2px;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .logo-slogan {
+            color: var(--text-sub-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        body.dark-mode .nav-links a {
+            color: var(--text-dark);
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        /* language selector */
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+            margin-left: 20px;
+        }
+        .lang-option {
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid transparent;
+            transition: border 0.2s;
+        }
+        .lang-option.active {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.3);
+        }
+        .lang-option.br {
+            background-image: url('https://flagcdn.com/w40/br.png');
+        }
+        .lang-option.us {
+            background-image: url('https://flagcdn.com/w40/us.png');
+        }
+        .lang-option.es {
+            background-image: url('https://flagcdn.com/w40/es.png');
+        }
+
+        /* dark mode toggle */
+        .dark-mode-toggle {
+            margin-left: 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            color: var(--text-dark);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .menu-toggle {
+            color: var(--text-dark);
+        }
+
+        /* buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--btn-bg);
+            color: white;
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 8px 16px -8px rgba(37,99,235,0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--btn-bg-hover);
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--btn-outline);
+            border: 2px solid var(--btn-outline);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--btn-outline-bg);
+            color: var(--btn-bg-hover);
+        }
+
+        /* hero */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+            border-bottom: 1px solid var(--border-light);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        body.dark-mode .hero {
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            background: var(--gradient-light);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-sub-light);
+            margin-bottom: 32px;
+            max-width: 540px;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .hero p {
+            color: var(--text-sub-dark);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%"><circle cx="400" cy="300" r="200" fill="%232563eb10"/><circle cx="300" cy="250" r="60" fill="%232563eb20"/><circle cx="500" cy="350" r="80" fill="%232563eb15"/><path d="M200 400 L400 200 L600 400 L400 550 Z" fill="%232563eb08"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 400px;
+            border-radius: 30px;
+        }
+
+        /* seção serviços */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0f2b5c;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .section-title {
+            color: var(--text-dark);
+        }
+
+        .section-sub {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-sub-light);
+            max-width: 720px;
+            margin: 0 auto 60px;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .section-sub {
+            color: var(--text-sub-dark);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+
+        .service-card {
+            background: var(--card-light);
+            padding: 32px 24px;
+            border-radius: 24px;
+            box-shadow: 0 12px 30px var(--shadow-light);
+            transition: all 0.2s ease, background-color 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .service-card {
+            background: var(--card-dark);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 12px 30px var(--shadow-dark);
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 40px -12px rgba(37,99,235,0.25);
+            border-color: #b3d0ff;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0f2b5c;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .service-card h3 {
+            color: var(--text-dark);
+        }
+
+        .service-card ul {
+            list-style: none;
+            color: var(--text-sub-light);
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .service-card ul {
+            color: var(--text-sub-dark);
+        }
+
+        .service-card li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-card li i {
+            color: #2563eb;
+            font-size: 0.9rem;
+            width: 18px;
+        }
+
+        .badge {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        /* escritório IA (destaque) */
+        .ia-showcase {
+            background: var(--ia-bg-light);
+            color: white;
+            border-radius: 40px;
+            padding: 64px 48px;
+            margin: 80px 0;
+            transition: background 0.3s;
+        }
+
+        body.dark-mode .ia-showcase {
+            background: var(--ia-bg-dark);
+        }
+
+        .ia-showcase h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .ia-showcase h2 span {
+            background: #fbbf24;
+            color: #0f2b5c;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            vertical-align: middle;
+            margin-left: 16px;
+        }
+
+        .ia-rooms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 24px;
+            margin: 48px 0;
+        }
+
+        .room-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(4px);
+            padding: 20px 12px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .room-item i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+            color: #fbbf24;
+        }
+
+        .ia-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 32px;
+            margin-top: 32px;
+            font-size: 1.1rem;
+        }
+
+        .ia-features span i {
+            margin-right: 10px;
+            color: #fbbf24;
+        }
+
+        /* diferenciais */
+        .diffs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .diff-item {
+            text-align: center;
+        }
+
+        .diff-item .num {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #2563eb;
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .diff-item h4 {
+            font-size: 1.5rem;
+            margin: 8px 0 12px;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .diff-item h4 {
+            color: var(--text-dark);
+        }
+
+        /* CTA final */
+        .cta-final {
+            background-color: var(--card-light);
+            border-radius: 40px;
+            padding: 64px 32px;
+            text-align: center;
+            box-shadow: 0 30px 50px -20px #b3d0ff;
+            margin: 80px 0;
+            border: 1px solid var(--border-light);
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark-mode .cta-final {
+            background-color: var(--card-dark);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 30px 50px -20px var(--shadow-dark);
+        }
+
+        .cta-final h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #0f2b5c;
+            max-width: 800px;
+            margin: 0 auto 24px;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .cta-final h2 {
+            color: var(--text-dark);
+        }
+
+        .cta-final .btn {
+            font-size: 1.25rem;
+            padding: 16px 48px;
+            margin-top: 16px;
+        }
+
+        /* footer */
+        .footer {
+            border-top: 1px solid var(--border-light);
+            padding: 40px 0;
+            color: var(--text-sub-light);
+            text-align: center;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .footer {
+            border-top: 1px solid var(--border-dark);
+            color: var(--text-sub-dark);
+        }
+
+        /* responsivo */
+        @media (max-width: 900px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-cta {
+                justify-content: center;
+            }
+            .hero-image {
+                min-height: 280px;
+            }
+            .navbar .container {
+                justify-content: space-between;
+            }
+            .nav-links, .lang-selector {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .diffs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            .ia-showcase {
+                padding: 40px 24px;
+            }
+            .ia-showcase h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                MULTSET
+                <span class="logo-slogan" id="slogan">INOVAÇÃO ALÉM DOS LIMITES</span>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div class="nav-links">
+                    <a href="#servicos" id="nav-services">Serviços</a>
+                    <a href="#ia" id="nav-ia">Agentes IA</a>
+                    <a href="#automacoes" id="nav-automations">Automações</a>
+                    <a href="#contato" id="nav-contact">Contato</a>
+                </div>
+                <div class="lang-selector">
+                    <div class="lang-option br active" data-lang="pt" title="Português"></div>
+                    <div class="lang-option us" data-lang="en" title="English"></div>
+                    <div class="lang-option es" data-lang="es" title="Español"></div>
+                </div>
+                <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i></div>
+            </div>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div>
+                <h1 id="hero-title">Inovação que vai além dos limites para o seu negócio</h1>
+                <p id="hero-sub">Criação de sites, agentes de inteligência artificial, automações completas e estratégias de marketing digital — do Brasil para o mundo.</p>
+                <div class="hero-cta">
+                    <a href="#contato" class="btn" id="hero-btn1">Quero crescer</a>
+                    <a href="#servicos" class="btn btn-outline" id="hero-btn2">Conhecer soluções</a>
+                </div>
+                <p style="font-size:1rem; margin-top:24px;" id="hero-international"><i class="fas fa-globe" style="color:#2563eb;"></i> Atendimento internacional (USD/EUR) · Projetos sob medida</p>
+            </div>
+            <div class="hero-image"> <img src="https://blog.brq.com/wp-content/uploads/sites/3/2022/11/inovacao.jpeg" alt="Inovação que vai além dos limites para o seu negócio" style="width:100%; height:auto; border-radius:12px;">
+</div>
+        </div>
+    </section>
+
+    <section id="servicos" class="container" style="margin-top: 60px;">
+        <h2 class="section-title" id="services-title">Soluções completas para o seu negócio</h2>
+        <p class="section-sub" id="services-sub">Da identidade visual à inteligência artificial: tudo o que você precisa para vender mais e operar com eficiência.</p>
+        <div class="services-grid" id="services-grid">
+            <!-- preenchido via JS -->
+        </div>
+    </section>
+
+    <!-- Destaque IA (Escritório Virtual) -->
+    <div class="container" id="ia">
+        <div class="ia-showcase">
+            <h2 id="ia-title">Escritório Virtual com 10 Agentes de IA <span>novidade</span></h2>
+            <p style="font-size:1.2rem; opacity:0.9; max-width:800px;" id="ia-description">Sua empresa com equipes de inteligência artificial trabalhando 24/7: marketing, design, vendas, finanças, RH e muito mais. Tudo integrado e sob o comando do Direx (o “chefe” dos agentes).</p>
+            <div class="ia-rooms" id="ia-rooms">
+                <!-- preenchido via JS -->
+            </div>
+            <div class="ia-features" id="ia-features">
+                <!-- preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Diferenciais de impacto -->
+    <div class="container">
+        <div class="diffs" id="diffs">
+            <!-- preenchido via JS -->
+        </div>
+    </div>
+
+    <!-- CTA final -->
+    <div class="container" id="contato">
+        <div class="cta-final">
+            <h2 id="cta-title">Pronto para ter uma máquina de vendas e eficiência?</h2>
+            <p style="font-size:1.3rem; color:#2563eb; margin-bottom:32px;" id="cta-sub">Sites, agentes IA, automações e estratégias que realmente convertem.</p>
+            <a href="https://wa.me/5543991900405" class="btn" id="cta-btn">Falar com especialista →</a>
+            <p style="margin-top:24px; color:#64748b;" id="cta-contact"><i class="fas fa-whatsapp" style="color:#25D366;"></i> Atendimento rápido via WhatsApp / E-mail</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p id="footer-copy">© 2025 MULTSET · Inovação além dos limites.</p>
+            <p style="margin-top:8px;" id="footer-regions">Brasil · EUA · Europa  |  <i class="fas fa-chevron-right" style="font-size:0.8rem;"></i>  Orçamentos em dólar/euro</p>
+        </div>
+    </footer>
+
+    <script>
+        // Traduções
+        const translations = {
+            pt: {
+                slogan: "INOVAÇÃO ALÉM DOS LIMITES",
+                nav: { services: "Serviços", ia: "Agentes IA", automations: "Automações", contact: "Contato" },
+                hero: {
+                    title: "Inovação que vai além dos limites para o seu negócio",
+                    sub: "Criação de sites, agentes de inteligência artificial, automações completas e estratégias de marketing digital — do Brasil para o mundo.",
+                    btn1: "Quero crescer",
+                    btn2: "Conhecer soluções",
+                    international: "Atendimento internacional (USD/EUR) · Projetos sob medida"
+                },
+                services: {
+                    title: "Soluções completas para o seu negócio",
+                    sub: "Da identidade visual à inteligência artificial: tudo o que você precisa para vender mais e operar com eficiência.",
+                    cards: [
+                        { icon: "fa-code", title: "Criação de Sites", badge: "a partir de R$200", items: ["Sites padrão (modelo rápido)", "Sites personalizados sob medida", "Landing pages de alta conversão", "Páginas de vendas institucionais", "Projetos internacionais (USD/EUR)"] },
+                        { icon: "fa-robot", title: "Agentes de IA", badge: "exclusivo", items: ["Escritório Virtual com 10 salas", "Marketing, Design, Vendas, RH, Finanças…", "Prompts inteligentes e personalizados", "Integração OpenManus, crewAI, LLMs gratuitas", "Estrutura multiagente pronta"] },
+                        { icon: "fa-bolt", title: "Automações Inteligentes", badge: "", items: ["Fluxos com n8n e ferramentas low-code", "Captura e qualificação automática de leads", "Follow-up e vendas no fim de semana", "Propostas automáticas (Workana, etc.)", "Agentes com abordagem humana"] },
+                        { icon: "fa-cloud", title: "Sistemas & SaaS", badge: "", items: ["Sistema de gestão para agências", "Controle de clientes, contratos, financeiro", "Área do cliente com boletos e solicitações", "MVP gratuito para escalar"] },
+                        { icon: "fa-paint-brush", title: "Design Gráfico", badge: "", items: ["Identidade visual completa", "Criativos para redes e tráfego pago", "Layouts e páginas de venda"] },
+                        { icon: "fa-chart-line", title: "Marketing Digital", badge: "", items: ["Estratégia funil completo (entrada, meio, fundo)", "Copywriting e roteiros de vídeo", "Estrutura de lançamento", "Produtos digitais de R$9,90 a R$1.497", "Estratégias Brasil & exterior"] },
+                        { icon: "fa-dollar-sign", title: "Captação Internacional", badge: "", items: ["Metas de 8k–10k dólares", "Plano de 90 dias / país foco", "Nichos lucrativos e abordagem direta"] },
+                        { icon: "fa-cubes", title: "Monetização & SaaS", badge: "", items: ["Planos com limite de agentes", "Venda por sala (cliente usa o agente)", "MVP gratuito e modelo escalável", "Produtos digitais automatizados"] }
+                    ]
+                },
+                ia: {
+                    title: "Escritório Virtual com 10 Agentes de IA",
+                    span: "novidade",
+                    description: "Sua empresa com equipes de inteligência artificial trabalhando 24/7: marketing, design, vendas, finanças, RH e muito mais. Tudo integrado e sob o comando do Direx (o “chefe” dos agentes).",
+                    rooms: ["Marketing", "Design", "Desenvolvimento", "Atendimento", "RH", "Finanças", "Vendas", "Logística", "P&D", "Diretoria (Direx)"],
+                    features: ["Prompts inteligentes", "OpenManus / crewAI", "LLMs gratuitas", "Personalização total", "Openclaw"]
+                },
+                diffs: [
+                    { num: "+120", title: "projetos entregues", text: "Brasil, EUA e Europa" },
+                    { num: "24/7", title: "automações ativas", text: "vendendo enquanto você dorme" },
+                    { num: "10x", title: "escalabilidade", text: "com agentes de IA e SaaS" }
+                ],
+                cta: {
+                    title: "Pronto para ter uma máquina de vendas e eficiência?",
+                    sub: "Sites, agentes IA, automações e estratégias que realmente convertem.",
+                    btn: "Falar com especialista →",
+                    contact: "Atendimento rápido via WhatsApp / E-mail"
+                },
+                footer: {
+                    copy: "© 2025 MULTSET · Inovação além dos limites.",
+                    regions: "Brasil · EUA · Europa  |  Orçamentos em dólar/euro"
+                }
+            },
+            en: {
+                slogan: "INNOVATION BEYOND LIMITS",
+                nav: { services: "Services", ia: "AI Agents", automations: "Automations", contact: "Contact" },
+                hero: {
+                    title: "Innovation that goes beyond limits for your business",
+                    sub: "Website creation, artificial intelligence agents, complete automations and digital marketing strategies — from Brazil to the world.",
+                    btn1: "I want to grow",
+                    btn2: "Know solutions",
+                    international: "International service (USD/EUR) · Custom projects"
+                },
+                services: {
+                    title: "Complete solutions for your business",
+                    sub: "From visual identity to artificial intelligence: everything you need to sell more and operate efficiently.",
+                    cards: [
+                        { icon: "fa-code", title: "Website Creation", badge: "from $40", items: ["Standard sites (quick template)", "Custom websites", "High-conversion landing pages", "Sales & institutional pages", "International projects (USD/EUR)"] },
+                        { icon: "fa-robot", title: "AI Agents", badge: "exclusive", items: ["Virtual Office with 10 rooms", "Marketing, Design, Sales, HR, Finance...", "Smart & customized prompts", "OpenManus, crewAI, free LLMs integration", "Multi-agent structure ready"] },
+                        { icon: "fa-bolt", title: "Smart Automations", badge: "", items: ["n8n workflows & low-code tools", "Automatic lead capture & qualification", "Follow-up & weekend sales", "Automatic proposals (Workana...)", "Human-like agent approach"] },
+                        { icon: "fa-cloud", title: "Systems & SaaS", badge: "", items: ["Management system for agencies", "Client, contract & financial control", "Client portal with invoices & requests", "Free MVP to scale"] },
+                        { icon: "fa-paint-brush", title: "Graphic Design", badge: "", items: ["Complete visual identity", "Social media & paid traffic creatives", "Layouts & sales pages"] },
+                        { icon: "fa-chart-line", title: "Digital Marketing", badge: "", items: ["Full funnel strategy (top, middle, bottom)", "Copywriting & video scripts", "Launch structure", "Digital products from $2 to $300", "Brazil & international strategies"] },
+                        { icon: "fa-dollar-sign", title: "International Capture", badge: "", items: ["$8k–$10k goals", "90-day plan / focus country", "Profitable niches & direct approach"] },
+                        { icon: "fa-cubes", title: "Monetization & SaaS", badge: "", items: ["Plans with agent limits", "Per-room sales (client uses the agent)", "Free MVP & scalable model", "Automated digital products"] }
+                    ]
+                },
+                ia: {
+                    title: "Virtual Office with 10 AI Agents",
+                    span: "new",
+                    description: "Your company with AI teams working 24/7: marketing, design, sales, finance, HR and more. Fully integrated under Direx (the 'boss' agent).",
+                    rooms: ["Marketing", "Design", "Development", "Support", "HR", "Finance", "Sales", "Logistics", "R&D", "Board (Direx)"],
+                    features: ["Smart prompts", "OpenManus / crewAI", "Free LLMs", "Full customization"]
+                },
+                diffs: [
+                    { num: "+120", title: "projects delivered", text: "Brazil, USA & Europe" },
+                    { num: "24/7", title: "active automations", text: "selling while you sleep" },
+                    { num: "10x", title: "scalability", text: "with AI agents & SaaS" }
+                ],
+                cta: {
+                    title: "Ready to have a sales and efficiency machine?",
+                    sub: "Websites, AI agents, automations and strategies that truly convert.",
+                    btn: "Talk to an expert →",
+                    contact: "Fast support via WhatsApp / Email"
+                },
+                footer: {
+                    copy: "© 2025 MULTSET · Innovation beyond limits.",
+                    regions: "Brazil · USA · Europe  |  Quotes in USD/EUR"
+                }
+            },
+            es: {
+                slogan: "INNOVACIÓN MÁS ALLÁ DE LOS LÍMITES",
+                nav: { services: "Servicios", ia: "Agentes IA", automations: "Automatizaciones", contact: "Contacto" },
+                hero: {
+                    title: "Innovación que va más allá de los límites para tu negocio",
+                    sub: "Creación de sitios web, agentes de inteligencia artificial, automatizaciones completas y estrategias de marketing digital — de Brasil para el mundo.",
+                    btn1: "Quiero crecer",
+                    btn2: "Conocer soluciones",
+                    international: "Atención internacional (USD/EUR) · Proyectos a medida"
+                },
+                services: {
+                    title: "Soluciones completas para tu negocio",
+                    sub: "Desde la identidad visual hasta la inteligencia artificial: todo lo que necesitas para vender más y operar con eficiencia.",
+                    cards: [
+                        { icon: "fa-code", title: "Creación de Sitios Web", badge: "desde R$200", items: ["Sitios estándar (modelo rápido)", "Sitios personalizados a medida", "Landing pages de alta conversión", "Páginas de ventas institucionales", "Proyectos internacionales (USD/EUR)"] },
+                        { icon: "fa-robot", title: "Agentes de IA", badge: "exclusivo", items: ["Oficina Virtual con 10 salas", "Marketing, Diseño, Ventas, RRHH, Finanzas...", "Prompts inteligentes y personalizados", "Integración OpenManus, crewAI, LLMs gratuitas", "Estructura multiagente lista"] },
+                        { icon: "fa-bolt", title: "Automatizaciones Inteligentes", badge: "", items: ["Flujos con n8n y herramientas low-code", "Captura y calificación automática de leads", "Seguimiento y ventas los fines de semana", "Propuestas automáticas (Workana...)", "Agentes con enfoque humano"] },
+                        { icon: "fa-cloud", title: "Sistemas & SaaS", badge: "", items: ["Sistema de gestión para agencias", "Control de clientes, contratos, finanzas", "Área del cliente con facturas y solicitudes", "MVP gratuito para escalar"] },
+                        { icon: "fa-paint-brush", title: "Diseño Gráfico", badge: "", items: ["Identidad visual completa", "Creativos para redes y tráfico pago", "Diseños y páginas de venta"] },
+                        { icon: "fa-chart-line", title: "Marketing Digital", badge: "", items: ["Estrategia de embudo completo", "Copywriting y guiones de video", "Estructura de lanzamiento", "Productos digitales desde R$9,90 hasta R$1.497", "Estrategias Brasil y exterior"] },
+                        { icon: "fa-dollar-sign", title: "Captación Internacional", badge: "", items: ["Metas de 8k–10k dólares", "Plan de 90 días / país foco", "Nichos lucrativos y enfoque directo"] },
+                        { icon: "fa-cubes", title: "Monetización & SaaS", badge: "", items: ["Planes con límite de agentes", "Venta por sala (cliente usa el agente)", "MVP gratuito y modelo escalable", "Productos digitales automatizados"] }
+                    ]
+                },
+                ia: {
+                    title: "Oficina Virtual con 10 Agentes de IA",
+                    span: "nuevo",
+                    description: "Tu empresa con equipos de inteligencia artificial trabajando 24/7: marketing, diseño, ventas, finanzas, RRHH y más. Todo integrado bajo el mando de Direx (el 'jefe' de los agentes).",
+                    rooms: ["Marketing", "Diseño", "Desarrollo", "Atención", "RRHH", "Finanzas", "Ventas", "Logística", "I+D", "Dirección (Direx)"],
+                    features: ["Prompts inteligentes", "OpenManus / crewAI", "LLMs gratuitas", "Personalización total"]
+                },
+                diffs: [
+                    { num: "+120", title: "proyectos entregados", text: "Brasil, EE.UU. y Europa" },
+                    { num: "24/7", title: "automatizaciones activas", text: "vendiendo mientras duermes" },
+                    { num: "10x", title: "escalabilidad", text: "con agentes de IA y SaaS" }
+                ],
+                cta: {
+                    title: "¿Listo para tener una máquina de ventas y eficiencia?",
+                    sub: "Sitios web, agentes IA, automatizaciones y estrategias que realmente convierten.",
+                    btn: "Hablar con un experto →",
+                    contact: "Atención rápida por WhatsApp / Email"
+                },
+                footer: {
+                    copy: "© 2025 MULTSET · Innovación más allá de los límites.",
+                    regions: "Brasil · EE.UU. · Europa  |  Presupuestos en USD/EUR"
+                }
+            }
+        };
+
+        // Função para preencher tudo
+        function setLanguage(lang) {
+            const t = translations[lang];
+
+            // Slogan
+            document.getElementById('slogan').innerText = t.slogan;
+
+            // Nav
+            document.getElementById('nav-services').innerText = t.nav.services;
+            document.getElementById('nav-ia').innerText = t.nav.ia;
+            document.getElementById('nav-automations').innerText = t.nav.automations;
+            document.getElementById('nav-contact').innerText = t.nav.contact;
+
+            // Hero
+            document.getElementById('hero-title').innerText = t.hero.title;
+            document.getElementById('hero-sub').innerText = t.hero.sub;
+            document.getElementById('hero-btn1').innerText = t.hero.btn1;
+            document.getElementById('hero-btn2').innerText = t.hero.btn2;
+            document.getElementById('hero-international').innerHTML = `<i class="fas fa-globe" style="color:#2563eb;"></i> ${t.hero.international}`;
+
+            // Services título e subtítulo
+            document.getElementById('services-title').innerText = t.services.title;
+            document.getElementById('services-sub').innerText = t.services.sub;
+
+            // Preencher grid de serviços
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = '';
+            t.services.cards.forEach(card => {
+                const badgeHtml = card.badge ? `<span class="badge">${card.badge}</span>` : '';
+                const itemsHtml = card.items.map(item => `<li><i class="fas fa-check"></i> ${item}</li>`).join('');
+                const cardHtml = `
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas ${card.icon}"></i></div>
+                        <h3>${card.title} ${badgeHtml}</h3>
+                        <ul>${itemsHtml}</ul>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+
+            // Seção IA
+            document.getElementById('ia-title').innerHTML = `${t.ia.title} <span>${t.ia.span}</span>`;
+            document.getElementById('ia-description').innerText = t.ia.description;
+            const roomsDiv = document.getElementById('ia-rooms');
+            roomsDiv.innerHTML = '';
+            t.ia.rooms.forEach(room => {
+                roomsDiv.innerHTML += `<div class="room-item"><i class="fas fa-cube"></i> ${room}</div>`;
+            });
+            const featuresDiv = document.getElementById('ia-features');
+            featuresDiv.innerHTML = '';
+            t.ia.features.forEach(feat => {
+                featuresDiv.innerHTML += `<span><i class="fas fa-check-circle"></i> ${feat}</span>`;
+            });
+
+            // Diferenciais
+            const diffsDiv = document.getElementById('diffs');
+            diffsDiv.innerHTML = '';
+            t.diffs.forEach(diff => {
+                diffsDiv.innerHTML += `
+                    <div class="diff-item">
+                        <div class="num">${diff.num}</div>
+                        <h4>${diff.title}</h4>
+                        <p>${diff.text}</p>
+                    </div>
+                `;
+            });
+
+            // CTA
+            document.getElementById('cta-title').innerText = t.cta.title;
+            document.getElementById('cta-sub').innerText = t.cta.sub;
+            document.getElementById('cta-btn').innerText = t.cta.btn;
+            document.getElementById('cta-contact').innerHTML = `<i class="fas fa-whatsapp" style="color:#25D366;"></i> ${t.cta.contact}`;
+
+            // Footer
+            document.getElementById('footer-copy').innerText = t.footer.copy;
+            document.getElementById('footer-regions').innerHTML = t.footer.regions.replace('|', '| <i class="fas fa-chevron-right" style="font-size:0.8rem;"></i>');
+        }
+
+        // Inicializar com português
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('pt');
+        });
+
+        // Event listeners para bandeiras
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                const lang = this.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
+        // Menu toggle simples para mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            alert('Versão mobile: menu seria aberto. Navegação simples mantida.');
+        });
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.navbar').classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>
